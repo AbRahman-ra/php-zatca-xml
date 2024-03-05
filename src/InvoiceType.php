@@ -2,10 +2,9 @@
 
 namespace Saleh7\Zatca;
 
-include __DIR__ . '/../vendor/autoload.php';
-
-use Sabre\Xml\Writer;
 use Sabre\Xml\XmlSerializable;
+use Saleh7\Zatca\Enums\DocumentType;
+use Sabre\Xml\Writer;
 
 class InvoiceType implements XmlSerializable
 {
@@ -43,20 +42,19 @@ class InvoiceType implements XmlSerializable
      */
     public function xmlSerialize(Writer $writer): void
     {
-        // die($this->invoiceType);
         // Check Document Type
         switch ($this->invoiceType) {
             case 'invoice':
-                $invoiceTypeCode = InvoiceTypeCode::INVOICE;
+                $invoiceTypeCode = DocumentType::INVOICE;
                 break;
             case 'debit':
-                $invoiceTypeCode = InvoiceTypeCode::DEBIT_NOTE;
+                $invoiceTypeCode = DocumentType::DEBIT_NOTE;
                 break;
             case 'credit':
-                $invoiceTypeCode = InvoiceTypeCode::CREDIT_NOTE;
+                $invoiceTypeCode = DocumentType::CREDIT_NOTE;
                 break;
             case 'prepayment':
-                $invoiceTypeCode = InvoiceTypeCode::PREPAYMENT;
+                $invoiceTypeCode = DocumentType::PREPAYMENT;
                 break;
             default:
                 die("Document Type can be `Invoice`, `Debit`, `Credit` or `Prepayment` only, found $this->invoiceType\n");
@@ -75,6 +73,7 @@ class InvoiceType implements XmlSerializable
         }
 
 
+        // Write the Invoice if everything is valid
         $writer->write([
             [
                 "name" => Schema::CBC . 'InvoiceTypeCode',

@@ -1,5 +1,7 @@
 <?php
 
+namespace Saleh7\Zatca\Enums;
+
 /**
  * The Document Layout (Standard - Simplified) of the invoice
  */
