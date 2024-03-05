@@ -25,13 +25,15 @@ $UBLExtensions = (new \Saleh7\Zatca\UBLExtensions)
 $Signature = (new \Saleh7\Zatca\Signature)
     ->setId("urn:oasis:names:specification:ubl:signature:Invoice")
     ->setSignatureMethod("urn:oasis:names:specification:ubl:dsig:enveloped:xades");
-// invoiceType object
+
+// invoiceType
 $invoiceType = (new \Saleh7\Zatca\InvoiceType())
     ->setInvoice('standard') // Standard / Simplified
     ->setInvoiceType('Credit'); // Invoice / Debit / Credit
-// invoiceType object
+
+// BillingReference (Mandatory in Credit & Debit Notes)
 $inType = (new \Saleh7\Zatca\BillingReference())
-    ->setId('Invoice');
+    ->setId('SME00021');
 
 // invoiceType object
 $Contact = (new \Saleh7\Zatca\Contract())
