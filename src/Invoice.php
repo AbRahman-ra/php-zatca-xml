@@ -1,4 +1,5 @@
 <?php
+
 namespace Saleh7\Zatca;
 
 use Sabre\Xml\Writer;
@@ -19,6 +20,7 @@ class Invoice implements XmlSerializable
     private $note;
     private $invoiceCurrencyCode = 'SAR';
     private $taxCurrencyCode = 'SAR';
+    private $documentCurrencyCode = 'SAR';
     private $orderReference;
     private $billingReference;
     private $contract;
@@ -310,136 +312,140 @@ class Invoice implements XmlSerializable
     public function xmlSerialize(Writer $writer): void
     {
         $this->validate();
-         // UBLExtensions
+        // UBLExtensions
 
-         if ($this->UBLExtensions !== null) {
-             $writer->write([
-                 Schema::EXT . 'UBLExtensions' => $this->UBLExtensions
-             ]);
+        if ($this->UBLExtensions !== null) {
+            $writer->write([
+                Schema::EXT . 'UBLExtensions' => $this->UBLExtensions
+            ]);
         }
-         // profileID
+        // profileID
         if ($this->profileID !== null) {
-            $writer->write( [ Schema::CBC . 'ProfileID' => $this->profileID ] );
+            $writer->write([Schema::CBC . 'ProfileID' => $this->profileID]);
         }
-         // id
+        // id
         if ($this->id !== null) {
-            $writer->write( [ Schema::CBC . 'ID' => $this->id ] );
+            $writer->write([Schema::CBC . 'ID' => $this->id]);
         }
-         // UUID
+        // UUID
         if ($this->UUID !== null) {
-            $writer->write( [ Schema::CBC . 'UUID' => $this->UUID ] );
+            $writer->write([Schema::CBC . 'UUID' => $this->UUID]);
         }
-         // issueDate
+        // issueDate
         if ($this->issueDate !== null) {
-            $writer->write( [ Schema::CBC . 'IssueDate' => $this->issueDate->format('Y-m-d') ] );
+            $writer->write([Schema::CBC . 'IssueDate' => $this->issueDate->format('Y-m-d')]);
         }
-         // issueTime
+        // issueTime
         if ($this->issueTime !== null) {
-            $writer->write( [ Schema::CBC . 'IssueTime' => $this->issueTime->format('H:i:s') ] );
+            $writer->write([Schema::CBC . 'IssueTime' => $this->issueTime->format('H:i:s')]);
         }
-         // invoiceType
-         if($this->invoiceType !== null){
-             $writer->write([$this->invoiceType
-                 ]
-             );
-         }
-          // note
-         if ($this->note !== null) {
-             $writer->write( [ Schema::CBC . 'Note' => $this->note ] );
-         }
-         // DocumentCurrencyCode
-         if($this->invoiceCurrencyCode !== null){
-             $writer->write([Schema::CBC . 'DocumentCurrencyCode' => $this->invoiceCurrencyCode]);
-         }
-         // taxCurrencyCode
-         if($this->taxCurrencyCode !== null){
-             $writer->write( [ Schema::CBC . 'TaxCurrencyCode' => $this->taxCurrencyCode ] );
-         }
-          // OrderReference
-         if ($this->orderReference != null) {
-             $writer->write( [ Schema::CAC . 'OrderReference' => $this->orderReference ] );
-         }
-          // BillingReference
-         if ($this->billingReference != null) {
-             $writer->write( [ Schema::CAC . 'BillingReference' => $this->billingReference ] );
-         }
-          // ContractDocumentReference
-         if ($this->contract !== null) {
-             $writer->write([
-                 Schema::CAC . 'ContractDocumentReference' => $this->contract,
-             ]);
-         }
-          // AdditionalDocumentReference
-         if($this->additionalDocumentReferences !== null){
-             foreach ($this->additionalDocumentReferences as $additionalDocumentReference) {
-                 $writer->write([
-                     Schema::CAC . 'AdditionalDocumentReference' => $additionalDocumentReference
-                 ]);
-             }
-         }
-          // Signature
-         if ($this->signature !== null) {
-             $writer->write([
-                 Schema::CAC . "Signature" => $this->signature
-             ]);
-         }
-          // AccountingSupplierParty / Party
-         if ($this->accountingSupplierParty != null) {
-             $writer->write( [ Schema::CAC . 'AccountingSupplierParty' => [
-                 Schema::CAC . "Party" => $this->accountingSupplierParty
-                 ] ] );
-         }
-          // AccountingCustomerParty / Party
-         if ($this->accountingCustomerParty != null) {
-             $writer->write( [ Schema::CAC . 'AccountingCustomerParty' => [
-                 Schema::CAC . "Party" => $this->accountingCustomerParty
-                 ] ] );
-         }
-          // Delivery
-         if ($this->delivery != null) {
-             $writer->write( [ Schema::CAC . 'Delivery' => $this->delivery ] );
-         }
-          // PaymentMeans
-         if ($this->paymentMeans !== null) {
-             $writer->write( [ Schema::CAC . 'PaymentMeans' => $this->paymentMeans ] );
-         }
-          // AllowanceCharge
-         if ($this->allowanceCharges !== null) {
-             foreach ($this->allowanceCharges as $allowanceCharge) {
-                 $writer->write([
-                     Schema::CAC . 'AllowanceCharge' => $allowanceCharge
-                 ]);
-             }
-         }
-          // TaxTotal
-         if ($this->taxTotal !== null) {
+        // invoiceType
+        if ($this->invoiceType !== null) {
+            $writer->write(
+                [
+                    $this->invoiceType
+                ]
+            );
+        }
+        // note
+        if ($this->note !== null) {
+            $writer->write([Schema::CBC . 'Note' => $this->note]);
+        }
+        // DocumentCurrencyCode
+        if ($this->invoiceCurrencyCode !== null) {
+            $writer->write([Schema::CBC . 'DocumentCurrencyCode' => $this->invoiceCurrencyCode]);
+        }
+        // taxCurrencyCode
+        if ($this->taxCurrencyCode !== null) {
+            $writer->write([Schema::CBC . 'TaxCurrencyCode' => $this->taxCurrencyCode]);
+        }
+        // OrderReference
+        if ($this->orderReference != null) {
+            $writer->write([Schema::CAC . 'OrderReference' => $this->orderReference]);
+        }
+        // BillingReference
+        if ($this->billingReference != null) {
+            $writer->write([Schema::CAC . 'BillingReference' => $this->billingReference]);
+        }
+        // ContractDocumentReference
+        if ($this->contract !== null) {
+            $writer->write([
+                Schema::CAC . 'ContractDocumentReference' => $this->contract,
+            ]);
+        }
+        // AdditionalDocumentReference
+        if ($this->additionalDocumentReferences !== null) {
+            foreach ($this->additionalDocumentReferences as $additionalDocumentReference) {
+                $writer->write([
+                    Schema::CAC . 'AdditionalDocumentReference' => $additionalDocumentReference
+                ]);
+            }
+        }
+        // Signature
+        if ($this->signature !== null) {
+            $writer->write([
+                Schema::CAC . "Signature" => $this->signature
+            ]);
+        }
+        // AccountingSupplierParty / Party
+        if ($this->accountingSupplierParty != null) {
+            $writer->write([Schema::CAC . 'AccountingSupplierParty' => [
+                Schema::CAC . "Party" => $this->accountingSupplierParty
+            ]]);
+        }
+        // AccountingCustomerParty / Party
+        if ($this->accountingCustomerParty != null) {
+            $writer->write([Schema::CAC . 'AccountingCustomerParty' => [
+                Schema::CAC . "Party" => $this->accountingCustomerParty
+            ]]);
+        }
+        // Delivery
+        if ($this->delivery != null) {
+            $writer->write([Schema::CAC . 'Delivery' => $this->delivery]);
+        }
+        // PaymentMeans
+        if ($this->paymentMeans !== null) {
+            $writer->write([Schema::CAC . 'PaymentMeans' => $this->paymentMeans]);
+        }
+        // AllowanceCharge
+        if ($this->allowanceCharges !== null) {
+            foreach ($this->allowanceCharges as $allowanceCharge) {
+                $writer->write([
+                    Schema::CAC . 'AllowanceCharge' => $allowanceCharge
+                ]);
+            }
+        }
+        // TaxTotal
+        if ($this->taxTotal !== null) {
 
-             if ($this->taxTotal->taxAmount !== null) {
-                 $writer->write( [ Schema::CAC . 'TaxTotal' => [
-                     Schema::CBC . "TaxAmount" => [
-                         'value' => number_format($this->taxTotal->taxAmount, 1, '.', ''),
-                         'attributes' => [
-                             'currencyID' => GeneratorInvoice::$currencyID
-                  ]]]] );
-             }
+            if ($this->taxTotal->taxAmount !== null) {
+                $writer->write([Schema::CAC . 'TaxTotal' => [
+                    Schema::CBC . "TaxAmount" => [
+                        'value' => number_format($this->taxTotal->taxAmount, 1, '.', ''),
+                        'attributes' => [
+                            'currencyID' => GeneratorInvoice::$currencyID
+                        ]
+                    ]
+                ]]);
+            }
 
-             $writer->write([
-                 Schema::CAC . 'TaxTotal' => $this->taxTotal
-             ]);
-         }
-          // LegalMonetaryTotal
-         if ($this->legalMonetaryTotal !== null) {
-             $writer->write([
-                 Schema::CAC . 'LegalMonetaryTotal' => $this->legalMonetaryTotal
-             ]);
-         }
-          // InvoiceLine
-          if($this->invoiceLines){
-              foreach ($this->invoiceLines as $invoiceLine) {
-                  $writer->write([
-                      Schema::CAC . 'InvoiceLine' => $invoiceLine
-                  ]);
-              }
-          }
+            $writer->write([
+                Schema::CAC . 'TaxTotal' => $this->taxTotal
+            ]);
+        }
+        // LegalMonetaryTotal
+        if ($this->legalMonetaryTotal !== null) {
+            $writer->write([
+                Schema::CAC . 'LegalMonetaryTotal' => $this->legalMonetaryTotal
+            ]);
+        }
+        // InvoiceLine
+        if ($this->invoiceLines) {
+            foreach ($this->invoiceLines as $invoiceLine) {
+                $writer->write([
+                    Schema::CAC . 'InvoiceLine' => $invoiceLine
+                ]);
+            }
+        }
     }
 }

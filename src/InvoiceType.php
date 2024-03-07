@@ -1,8 +1,11 @@
 <?php
+
 namespace Saleh7\Zatca;
 
-use Sabre\Xml\Writer;
 use Sabre\Xml\XmlSerializable;
+use Saleh7\Zatca\Enums\DocumentType;
+use Sabre\Xml\Writer;
+use Saleh7\Zatca\Enums\DocumentLayout;
 
 class InvoiceType implements XmlSerializable
 {
@@ -11,22 +14,24 @@ class InvoiceType implements XmlSerializable
 
 
     /**
-     * @param mixed $invoiceType
+     * Sets the document layout (B2B Documents `standard` - B2C Documents `simplified`) - Case Insensitive
+     * @param string $invoice The documet layout
      * @return InvoiceType
      */
-    public function setInvoice(?string $invoice): InvoiceType
+    public function setInvoice(string $invoice): InvoiceType
     {
-        $this->invoice = $invoice;
+        $this->invoice = strtolower($invoice);
         return $this;
     }
 
     /**
+     * Sets the document Type (Invoice `invoice` - Debit notes `debit` - Credit Notes `credit` - Prepayment Invoices `prepayment`) - Case Insensitive
      * @param mixed $invoiceType
      * @return InvoiceType
      */
-    public function setInvoiceType(?string $invoiceType): InvoiceType
+    public function setInvoiceType(string $invoiceType): InvoiceType
     {
-        $this->invoiceType = $invoiceType;
+        $this->invoiceType = strtolower($invoiceType);
         return $this;
     }
 
@@ -38,51 +43,46 @@ class InvoiceType implements XmlSerializable
      */
     public function xmlSerialize(Writer $writer): void
     {
-        if($this->invoiceType == 'Invoice'){
-            $invoiceTypeCode = InvoiceTypeCode::INVOICE;
-        }elseif ($this->invoiceType == 'Debit') {
-            $invoiceTypeCode = InvoiceTypeCode::DEBIT_NOTE;
-        }elseif ($this->invoiceType == 'Credit') {
-            $invoiceTypeCode = InvoiceTypeCode::CREDIT_NOTE;
+        // Check Document Type
+        switch ($this->invoiceType) {
+            case 'invoice':
+                $invoiceTypeCode = DocumentType::INVOICE;
+                break;
+            case 'debit':
+                $invoiceTypeCode = DocumentType::DEBIT_NOTE;
+                break;
+            case 'credit':
+                $invoiceTypeCode = DocumentType::CREDIT_NOTE;
+                break;
+            case 'prepayment':
+                $invoiceTypeCode = DocumentType::PREPAYMENT;
+                break;
+            default:
+                die("Document Type can be `Invoice`, `Debit`, `Credit` or `Prepayment` only, found $this->invoiceType\n");
         }
 
-         // Invoice
-        if($this->invoice == 'Invoice'){
-            if($this->invoiceType == 'Invoice'){
-                $invoiceType = InvoiceTypeCode::TAX_INVOICE;
-            }elseif ($this->invoiceType == 'Debit') {
-                $invoiceType = InvoiceTypeCode::TAX_DEBIT_NOTE;
-            }elseif ($this->invoiceType == 'Credit') {
-                $invoiceType = InvoiceTypeCode::TAX_CREDIT_NOTE;
-            }
-            $writer->write([
-                [
-                    "name" => Schema::CBC . 'InvoiceTypeCode',
-                    "value" => $invoiceTypeCode,
-                    "attributes" => [
-                        "name" => $invoiceType
-                    ]
-                ],
-            ]);
+        // Check Document Layout
+        switch ($this->invoice) {
+            case 'standard':
+                $invoiceType = DocumentLayout::STANDARD;
+                break;
+            case 'simplified':
+                $invoiceType = DocumentLayout::SIMPLIFIED;
+                break;
+            default:
+                die("Document Layout can be `Standard` or `Simplified` only, found $this->invoice\n");
         }
-         // Simplified
-        if($this->invoice == 'Simplified'){
-            if($this->invoiceType == 'Invoice'){
-                $invoiceType = InvoiceTypeCode::SIMPLIFIED_INVOICE;
-            }elseif ($this->invoiceType == 'Debit') {
-                $invoiceType = InvoiceTypeCode::SIMPLIFIED_DEBIT_NOTE;
-            }elseif ($this->invoiceType == 'Credit') {
-                $invoiceType = InvoiceTypeCode::SIMPLIFIED_CREDIT_NOTE;
-            }
-            $writer->write([
-                [
-                    "name" => Schema::CBC . 'InvoiceTypeCode',
-                    "value" => $invoiceTypeCode,
-                    "attributes" => [
-                        "name" => $invoiceType
-                    ]
-                ],
-            ]);
-        }
+
+
+        // Write the Invoice if everything is valid
+        $writer->write([
+            [
+                "name" => Schema::CBC . 'InvoiceTypeCode',
+                "value" => $invoiceTypeCode,
+                "attributes" => [
+                    "name" => $invoiceType
+                ]
+            ],
+        ]);
     }
 }

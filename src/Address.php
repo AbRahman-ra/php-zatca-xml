@@ -1,4 +1,5 @@
 <?php
+
 namespace Saleh7\Zatca;
 
 use Sabre\Xml\Writer;
@@ -20,7 +21,7 @@ class Address implements XmlSerializable
      * @param string $streetName
      * @return Address
      */
-    public function setStreetName(?string $streetName): Address
+    public function setStreetName(string $streetName): Address
     {
         $this->streetName = $streetName;
         return $this;
@@ -30,7 +31,7 @@ class Address implements XmlSerializable
      * @param string $additionalStreetName
      * @return Address
      */
-    public function setAdditionalStreetName(?string $additionalStreetName): Address
+    public function setAdditionalStreetName(string $additionalStreetName): Address
     {
         $this->additionalStreetName = $additionalStreetName;
         return $this;
@@ -40,7 +41,7 @@ class Address implements XmlSerializable
      * @param string $buildingNumber
      * @return Address
      */
-    public function setBuildingNumber(?string $buildingNumber): Address
+    public function setBuildingNumber(string $buildingNumber): Address
     {
         $this->buildingNumber = $buildingNumber;
         return $this;
@@ -50,7 +51,7 @@ class Address implements XmlSerializable
      * @param string $plotIdentification
      * @return Address
      */
-    public function setPlotIdentification(?string $plotIdentification): Address
+    public function setPlotIdentification(string $plotIdentification): Address
     {
         $this->plotIdentification = $plotIdentification;
         return $this;
@@ -60,7 +61,7 @@ class Address implements XmlSerializable
      * @param string $cityName
      * @return Address
      */
-    public function setCityName(?string $cityName): Address
+    public function setCityName(string $cityName): Address
     {
         $this->cityName = $cityName;
         return $this;
@@ -70,7 +71,7 @@ class Address implements XmlSerializable
      * @param string $postalZone
      * @return Address
      */
-    public function setPostalZone(?string $postalZone): Address
+    public function setPostalZone(string $postalZone): Address
     {
         $this->postalZone = $postalZone;
         return $this;
@@ -80,7 +81,7 @@ class Address implements XmlSerializable
      * @param string $country
      * @return Address
      */
-    public function setCountry(?string $country): Address
+    public function setCountry(string $country): Address
     {
         $this->country = $country;
         return $this;
@@ -90,16 +91,17 @@ class Address implements XmlSerializable
      * @param string $countrySubentity
      * @return Address
      */
-    public function setCountrySubentity(?string $countrySubentity): Address
+    public function setCountrySubentity(string $countrySubentity): Address
     {
         $this->countrySubentity = $countrySubentity;
         return $this;
     }
     /**
+     * Set The area or the district of an invoice party
      * @param string $citySubdivisionName
      * @return Address
      */
-    public function setCitySubdivisionName(?string $citySubdivisionName): Address
+    public function setCitySubdivisionName(string $citySubdivisionName): Address
     {
         $this->citySubdivisionName = $citySubdivisionName;
         return $this;

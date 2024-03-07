@@ -1,6 +1,8 @@
 <?php
+
 namespace Saleh7\Zatca;
 
+use Generator;
 use Sabre\Xml\Writer;
 use Sabre\Xml\XmlSerializable;
 
@@ -217,7 +219,7 @@ class AllowanceCharge implements XmlSerializable
                     'name' => Schema::CBC . 'BaseAmount',
                     'value' => $this->baseAmount,
                     'attributes' => [
-                        'currencyID' => Generator::$currencyID
+                        'currencyID' => GeneratorInvoice::$currencyID
                     ]
                 ]
             ]);

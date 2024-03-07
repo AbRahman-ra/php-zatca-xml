@@ -21,7 +21,7 @@
     "homepage": "https://github.com/Saleh7/php-zatca-xml",
     "license": "MIT",
     "require": {
-        "php": "^7.4||^8.1",
+        "php": "^8.1",
         "sabre/xml": "^4.0"
     },
     "require-dev": {
@@ -30,6 +30,7 @@
     "autoload": {
         "psr-4": {
             "Saleh7\\Zatca\\": ["src"],
+            "Saleh7\\Zatca\\Enums\\": ["enums"],
             "Saleh7\\Zatca\\Tests\\": ["tests"]
         }
     },

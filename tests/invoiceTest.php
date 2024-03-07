@@ -1,5 +1,7 @@
 <?php
 
+include __DIR__ . '/../vendor/autoload.php';
+
 // SignatureInformation
 $sign = (new \Saleh7\Zatca\SignatureInformation)
     ->setReferencedSignatureID("urn:oasis:names:specification:ubl:signature:Invoice")
@@ -23,13 +25,15 @@ $UBLExtensions = (new \Saleh7\Zatca\UBLExtensions)
 $Signature = (new \Saleh7\Zatca\Signature)
     ->setId("urn:oasis:names:specification:ubl:signature:Invoice")
     ->setSignatureMethod("urn:oasis:names:specification:ubl:dsig:enveloped:xades");
-// invoiceType object
+
+// invoiceType
 $invoiceType = (new \Saleh7\Zatca\InvoiceType())
-    ->setInvoice('Invoice') // Invoice / Simplified
-    ->setInvoiceType('Invoice'); // Invoice / Debit / Credit
-// invoiceType object
+    ->setInvoice('standard') // Standard / Simplified
+    ->setInvoiceType('Credit'); // Invoice / Debit / Credit
+
+// BillingReference (Mandatory in Credit & Debit Notes)
 $inType = (new \Saleh7\Zatca\BillingReference())
-    ->setId('Invoice');
+    ->setId('SME00021');
 
 // invoiceType object
 $Contact = (new \Saleh7\Zatca\Contract())
@@ -70,7 +74,7 @@ $address = (new \Saleh7\Zatca\Address())
     ->setCountry('SA');
 
 $legalEntity = (new \Saleh7\Zatca\LegalEntity())
-        ->setRegistrationName('Acme Widget’s LTD');
+    ->setRegistrationName('Acme Widget’s LTD');
 
 $delivery = (new \Saleh7\Zatca\Delivery())
     ->setActualDeliveryDate("2022-09-07");
@@ -100,10 +104,10 @@ $taxCategory = (new \Saleh7\Zatca\TaxCategory())
 // Invoice Line(s)
 $allowanceCharges = [];
 $allowanceCharges[] = (new \Saleh7\Zatca\AllowanceCharge())
-->setChargeIndicator(false)
-->setAllowanceChargeReason('discount')
-->setAmount(0.00)
-->setTaxCategory($taxCategory);
+    ->setChargeIndicator(false)
+    ->setAllowanceChargeReason('discount')
+    ->setAmount(0.00)
+    ->setTaxCategory($taxCategory);
 
 $lineTaxTotalOne = (new \Saleh7\Zatca\TaxTotal())
     ->setTaxAmount(0.6);
