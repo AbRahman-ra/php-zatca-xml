@@ -2,6 +2,7 @@
 
 include __DIR__ . '/../vendor/autoload.php';
 
+// ------------- CONSTANT -------------
 // SignatureInformation
 $sign = (new \Saleh7\Zatca\SignatureInformation)
     ->setReferencedSignatureID("urn:oasis:names:specification:ubl:signature:Invoice")
@@ -25,17 +26,18 @@ $UBLExtensions = (new \Saleh7\Zatca\UBLExtensions)
 $Signature = (new \Saleh7\Zatca\Signature)
     ->setId("urn:oasis:names:specification:ubl:signature:Invoice")
     ->setSignatureMethod("urn:oasis:names:specification:ubl:dsig:enveloped:xades");
+// ------------- END CONSTANT -------------
 
-// invoiceType
+// invoice Type
 $invoiceType = (new \Saleh7\Zatca\InvoiceType())
     ->setInvoice('standard') // Standard / Simplified
     ->setInvoiceType('Credit'); // Invoice / Debit / Credit
 
-// BillingReference (Mandatory in Credit & Debit Notes)
+// Billing Reference (Mandatory in Credit & Debit Notes)
 $inType = (new \Saleh7\Zatca\BillingReference())
     ->setId('SME00021');
 
-// invoiceType object
+// Contract Reference
 $Contact = (new \Saleh7\Zatca\Contract())
     ->setId('15');
 
@@ -96,7 +98,7 @@ $supplierCustomer = (new \Saleh7\Zatca\Party())
 $clientPaymentMeans = (new \Saleh7\Zatca\PaymentMeans())
     ->setPaymentMeansCode("10");
 
-
+// Tax Category (S - E - Z - O)
 $taxCategory = (new \Saleh7\Zatca\TaxCategory())
     ->setPercent(15)
     ->setTaxScheme($taxScheme);
@@ -157,6 +159,8 @@ $invoiceLines[] = (new \Saleh7\Zatca\InvoiceLine())
     ->setPrice($price)
     ->setTaxTotal($lineTaxTotal)
     ->setInvoicedQuantity(2);
+
+
 // Invoice object
 $invoice = (new \Saleh7\Zatca\Invoice())
     ->setUBLExtensions($UBLExtensions)
@@ -166,7 +170,7 @@ $invoice = (new \Saleh7\Zatca\Invoice())
     ->setIssueTime(new \DateTime())
     ->setInvoiceType($invoiceType)
     ->Signature($Signature)
-    // ->setContract($Contact)
+    ->setContract($Contact)
     // ->setBillingReference($inType)
     ->setAdditionalDocumentReferences($AdditionalDocumentReferences)
     ->setDelivery($delivery)

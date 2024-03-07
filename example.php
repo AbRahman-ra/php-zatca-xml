@@ -1,6 +1,8 @@
 <?php
+
 require __DIR__ . '/vendor/autoload.php';
 
+// ------------- CONSTANT -------------
 // SignatureInformation
 $sign = (new \Saleh7\Zatca\SignatureInformation)
     ->setReferencedSignatureID("urn:oasis:names:specification:ubl:signature:Invoice")
@@ -24,13 +26,16 @@ $UBLExtensions = (new \Saleh7\Zatca\UBLExtensions)
 $Signature = (new \Saleh7\Zatca\Signature)
     ->setId("urn:oasis:names:specification:ubl:signature:Invoice")
     ->setSignatureMethod("urn:oasis:names:specification:ubl:dsig:enveloped:xades");
-// invoiceType object
+// ------------- END CONSTANT -------------
+
+// invoice Type
 $invoiceType = (new \Saleh7\Zatca\InvoiceType())
     ->setInvoice('Invoice') // Invoice / Simplified
     ->setInvoiceType('Invoice'); // Invoice / Debit / Credit
 
 // AdditionalDocumentReference
 $AdditionalDocumentReferences = [];
+
 $AdditionalDocumentReferences[] = (new \Saleh7\Zatca\AdditionalDocumentReference())
     ->setId('ICV')
     ->setUUID(23);
@@ -67,7 +72,7 @@ $address = (new \Saleh7\Zatca\Address())
 
 // Legal Entity
 $legalEntity = (new \Saleh7\Zatca\LegalEntity())
-        ->setRegistrationName('Acme Widget’s LTD');
+    ->setRegistrationName('Acme Widget’s LTD');
 
 // Delivery
 $delivery = (new \Saleh7\Zatca\Delivery())
@@ -101,10 +106,10 @@ $taxCategory = (new \Saleh7\Zatca\TaxCategory())
 // Invoice Line(s)
 $allowanceCharges = [];
 $allowanceCharges[] = (new \Saleh7\Zatca\AllowanceCharge())
-->setChargeIndicator(false)
-->setAllowanceChargeReason('discount')
-->setAmount(0.00)
-->setTaxCategory($taxCategory);
+    ->setChargeIndicator(false)
+    ->setAllowanceChargeReason('discount')
+    ->setAmount(0.00)
+    ->setTaxCategory($taxCategory);
 
 // Tax Sub Total
 $taxSubTotal = (new \Saleh7\Zatca\TaxSubTotal())

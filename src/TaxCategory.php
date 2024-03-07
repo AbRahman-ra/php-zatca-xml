@@ -1,4 +1,5 @@
 <?php
+
 namespace Saleh7\Zatca;
 
 use Sabre\Xml\Writer;
@@ -90,7 +91,7 @@ class TaxCategory implements XmlSerializable
     }
 
     /**
-     * @return string
+     * @return TaxScheme
      */
     public function getTaxScheme(): ?TaxScheme
     {
@@ -199,13 +200,14 @@ class TaxCategory implements XmlSerializable
             $writer->write([
                 [
                     'name' => Schema::CAC . 'TaxScheme',
-                    'value' => [ Schema::CBC . 'ID' => [
-                        "value" => $this->getTaxScheme()->id,
-                        'attributes' => $this->taxSchemeAttributes
+                    'value' => [
+                        Schema::CBC . 'ID' => [
+                            "value" => $this->getTaxScheme()->id,
+                            'attributes' => $this->taxSchemeAttributes
+                        ]
                     ]
-                ]]
+                ]
             ]);
-
         } else {
             $writer->write([
                 Schema::CAC . 'TaxScheme' => null,

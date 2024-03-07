@@ -3,9 +3,9 @@
 namespace Saleh7\Zatca;
 
 use Sabre\Xml\XmlSerializable;
-use Saleh7\Zatca\Enums\DocumentType;
+use Saleh7\Zatca\Enums\InvoiceType as DocumentType;
 use Sabre\Xml\Writer;
-use Saleh7\Zatca\Enums\DocumentLayout;
+use Saleh7\Zatca\Enums\InvoiceSubtype;
 
 class InvoiceType implements XmlSerializable
 {
@@ -64,10 +64,10 @@ class InvoiceType implements XmlSerializable
         // Check Document Layout
         switch ($this->invoice) {
             case 'standard':
-                $invoiceType = DocumentLayout::STANDARD;
+                $invoiceType = InvoiceSubtype::STANDARD;
                 break;
             case 'simplified':
-                $invoiceType = DocumentLayout::SIMPLIFIED;
+                $invoiceType = InvoiceSubtype::SIMPLIFIED;
                 break;
             default:
                 die("Document Layout can be `Standard` or `Simplified` only, found $this->invoice\n");

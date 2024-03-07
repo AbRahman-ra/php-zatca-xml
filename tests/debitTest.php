@@ -1,5 +1,8 @@
 <?php
 
+include __DIR__ . '/../vendor/autoload.php';
+
+// ------------- CONSTANT -------------
 // SignatureInformation
 $sign = (new \Saleh7\Zatca\SignatureInformation)
     ->setReferencedSignatureID("urn:oasis:names:specification:ubl:signature:Invoice")
@@ -23,10 +26,13 @@ $UBLExtensions = (new \Saleh7\Zatca\UBLExtensions)
 $Signature = (new \Saleh7\Zatca\Signature)
     ->setId("urn:oasis:names:specification:ubl:signature:Invoice")
     ->setSignatureMethod("urn:oasis:names:specification:ubl:dsig:enveloped:xades");
-// invoiceType object
+// ------------- END CONSTANT -------------
+
+// invoice Type
 $invoiceType = (new \Saleh7\Zatca\InvoiceType())
     ->setInvoice('Invoice') // Invoice / Simplified
     ->setInvoiceType('Debit'); // Invoice / Debit / Credit
+
 // invoiceType object
 $inType = (new \Saleh7\Zatca\BillingReference())
     ->setId('SME00002');
@@ -34,7 +40,6 @@ $inType = (new \Saleh7\Zatca\BillingReference())
 // invoiceType object
 $Contact = (new \Saleh7\Zatca\Contract())
     ->setId('15');
-
 
 $AdditionalDocumentReferences = [];
 
@@ -70,7 +75,7 @@ $address = (new \Saleh7\Zatca\Address())
     ->setCountry('SA');
 
 $legalEntity = (new \Saleh7\Zatca\LegalEntity())
-        ->setRegistrationName('Acme Widget’s LTD');
+    ->setRegistrationName('Acme Widget’s LTD');
 
 $delivery = (new \Saleh7\Zatca\Delivery())
     ->setActualDeliveryDate("2022-09-07");
@@ -101,10 +106,10 @@ $taxCategory = (new \Saleh7\Zatca\TaxCategory())
 // Invoice Line(s)
 $allowanceCharges = [];
 $allowanceCharges[] = (new \Saleh7\Zatca\AllowanceCharge())
-->setChargeIndicator(false)
-->setAllowanceChargeReason('discount')
-->setAmount(0.00)
-->setTaxCategory($taxCategory);
+    ->setChargeIndicator(false)
+    ->setAllowanceChargeReason('discount')
+    ->setAmount(0.00)
+    ->setTaxCategory($taxCategory);
 
 $lineTaxTotalOne = (new \Saleh7\Zatca\TaxTotal())
     ->setTaxAmount(0.6);
@@ -179,5 +184,3 @@ $generatorXml = new \Saleh7\Zatca\GeneratorInvoice();
 $outputXML = $generatorXml->invoice($invoice);
 header("Content-Type: application/xml; charset=utf-8");
 echo $outputXML;
-
-?>
