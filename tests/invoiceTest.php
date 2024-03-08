@@ -79,7 +79,8 @@ $legalEntity = (new \Saleh7\Zatca\LegalEntity())
     ->setRegistrationName('Acme Widget’s LTD');
 
 $delivery = (new \Saleh7\Zatca\Delivery())
-    ->setActualDeliveryDate("2022-09-07");
+    ->setActualDeliveryDate("2022-09-07")
+    ->setLatestDeliveryDate("2022-09-30"); // Only for summary invoices
 
 $supplierCompany = (new \Saleh7\Zatca\Party())
     ->setPartyIdentification("311111111111113")
@@ -103,7 +104,7 @@ $taxCategory = (new \Saleh7\Zatca\TaxCategory())
     ->setPercent(15)
     ->setTaxScheme($taxScheme);
 
-// Invoice Line(s)
+// Document Level Allowances/Charges
 $allowanceCharges = [];
 $allowanceCharges[] = (new \Saleh7\Zatca\AllowanceCharge())
     ->setChargeIndicator(false)
@@ -111,9 +112,11 @@ $allowanceCharges[] = (new \Saleh7\Zatca\AllowanceCharge())
     ->setAmount(0.00)
     ->setTaxCategory($taxCategory);
 
+// Invoice Line Tax Total
 $lineTaxTotalOne = (new \Saleh7\Zatca\TaxTotal())
     ->setTaxAmount(0.6);
 
+// Document Tax Total
 $taxSubTotal = (new \Saleh7\Zatca\TaxSubTotal())
     ->setTaxableAmount(4)
     ->setTaxAmount(0.6)
@@ -123,6 +126,7 @@ $taxTotal = (new \Saleh7\Zatca\TaxTotal())
     ->addTaxSubTotal($taxSubTotal)
     ->setTaxAmount(0.6);
 
+// Document Level Totals
 $legalMonetaryTotal = (new \Saleh7\Zatca\LegalMonetaryTotal())
     ->setLineExtensionAmount(4)
     ->setTaxExclusiveAmount(4)
@@ -131,16 +135,16 @@ $legalMonetaryTotal = (new \Saleh7\Zatca\LegalMonetaryTotal())
     ->setPayableAmount(4.60)
     ->setAllowanceTotalAmount(0);
 
-
+// Invoice Line Item Classified Tax
 $classifiedTax = (new \Saleh7\Zatca\ClassifiedTaxCategory())
     ->setPercent(15)
     ->setTaxScheme($taxScheme);
 
-// Product
+// Invoice Line Product
 $productItem = (new \Saleh7\Zatca\Item())
     ->setName('قلم رصاص')
     ->setClassifiedTaxCategory($classifiedTax);
-// Price
+// Invoice Line Price
 $price = (new \Saleh7\Zatca\Price())
     ->setUnitCode(\Saleh7\Zatca\UnitCode::UNIT)
     ->setPriceAmount(2);
@@ -149,7 +153,8 @@ $price = (new \Saleh7\Zatca\Price())
 $lineTaxTotal = (new \Saleh7\Zatca\TaxTotal())
     ->setTaxAmount(0.60)
     ->setRoundingAmount(4.60);
-// Invoice Line(s)
+
+// Invoice Lines array
 $invoiceLines = [];
 $invoiceLines[] = (new \Saleh7\Zatca\InvoiceLine())
     ->setUnitCode("PCE")
