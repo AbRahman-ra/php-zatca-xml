@@ -72,15 +72,17 @@ $inType = (new \Saleh7\Zatca\BillingReference())
 Similar to billing references, contract references are references to specific contracts or agreements among parties. Usually it's most used with standard invoices
 
 ```php
-$Contact = (new \Saleh7\Zatca\Contract())
+$Contract = (new \Saleh7\Zatca\Contract())
   ->setId('15');
 ```
 
 ## Additional Document References
 
-Additional Document References include ICV (Invoice Counter Value), PIH (Previous Invoice Hash), and QR Code
+Additional Document References include
 
 - ICV: The serial number of the document
+- PIH (Previous Invoice Hash)
+- Invoice QR Code
 
 Additional document references shall be in an array of instances
 
