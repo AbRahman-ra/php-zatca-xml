@@ -293,3 +293,33 @@ $outputXML = $generatorXml->invoice($invoice);
 header("Content-Type: application/xml; charset=utf-8");
 echo $outputXML;
 ```
+
+## Procedure to Create an XML Invoice
+
+1. Write The Invoice Constants
+2. Determine Invoice Information
+   1. Invocie, Credit Note, Debit Note, Prepayment
+   2. Is the Invoice 3rd Party?
+   3. Is the Invoice nominal invoice?
+   4. Is the Invoice export invoice?
+   5. Is the Invoice summary invoice?
+   6. Is the Invoice Self-billed?
+   7. Payment Means
+   8. Issue Date & Time
+   9. Delivery Date (if any)
+3. Determine References
+   1. Billing References (for cerdit & debit notes)
+   2. Contract References (for standard invoices)
+4. Determine Additional Document References
+   1. ICV
+   2. PIH
+   3. QR (No value)
+5. Determine Parties Information
+   1. Tax Schemes
+   2. Legal Entities
+   3. Addresses
+6. Determine Invoice Lines
+7. Determine Document Level Information
+   1. Totals, Prepaid, Payable
+   2. Tax Category
+   3. Document Level Allowances/Charges

@@ -1,6 +1,6 @@
 <?php
 
-include __DIR__ . '/../vendor/autoload.php';
+include __DIR__ . '/vendor/autoload.php';
 
 // ------------- CONSTANT -------------
 // SignatureInformation
@@ -8,16 +8,29 @@ $sign = (new \Saleh7\Zatca\SignatureInformation)
     ->setReferencedSignatureID("urn:oasis:names:specification:ubl:signature:Invoice")
     ->setID('urn:oasis:names:specification:ubl:signature:1');
 
-var_dump($sign);
+echo "<pre>";
+print_r($sign);
+echo "</pre>";
 
-die();
+echo "-----------------------------------------------------";
+
 
 // UBLDocumentSignatures
 $ublDecoment = (new \Saleh7\Zatca\UBLDocumentSignatures)
     ->setSignatureInformation($sign);
 
+echo "<pre>";
+print_r($ublDecoment);
+echo "</pre>";
+
+echo "-----------------------------------------------------";
+
 $extensionContent = (new \Saleh7\Zatca\ExtensionContent)
     ->setUBLDocumentSignatures($ublDecoment);
+
+echo "<pre>";
+print_r($extensionContent);
+echo "</pre>";
 
 // UBLExtension
 $UBLExtension[] = (new \Saleh7\Zatca\UBLExtension)
@@ -30,6 +43,11 @@ $UBLExtensions = (new \Saleh7\Zatca\UBLExtensions)
 $Signature = (new \Saleh7\Zatca\Signature)
     ->setId("urn:oasis:names:specification:ubl:signature:Invoice")
     ->setSignatureMethod("urn:oasis:names:specification:ubl:dsig:enveloped:xades");
+
+echo "<pre>";
+print_r($UBLExtensions);
+echo "</pre>";
+die();
 // ------------- END CONSTANT -------------
 
 // invoice Type
