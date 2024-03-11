@@ -1,17 +1,42 @@
 <?php
+
 namespace Saleh7\Zatca;
 
+use BadMethodCallException;
+use InvalidArgumentException;
 use Sabre\Xml\Writer;
 use Sabre\Xml\XmlSerializable;
 
 class AdditionalDocumentReference implements XmlSerializable
 {
     private $id;
-    private $UUID;
+    private $UUID; // ICV
     private $documentType;
     private $previousInvoiceHash;
     private $attachment;
 
+    /**
+     * @param string $key The key of the additional document reference (`'ICV'`, `'PIH'`, `'QR'`) - Case Insensitive
+     * @param string|int|null $value [optional] The value to the additional document reference key. Note that the PIH value for the first invoice will be handled by the function
+     */
+    public function __construct(string $key, string|int|null $value)
+    {
+        switch (strtolower($key)) {
+            case 'icv':
+                $this->id = 'ICV';
+                if ($value !== null) $this->UUID = $value;
+                else throw new BadMethodCallException("The value of ICV is required\n");
+                break;
+            case 'pih':
+                if ($value !== null) $this->previousInvoiceHash = $value;
+                break;
+            case 'qr':
+                $this->id = 'QR';
+                break;
+            default:
+                throw new InvalidArgumentException("The key can be `ICV`, `PIH` or `QR` only, found $key\n");
+        }
+    }
     /**
      * @param string $id
      * @return AdditionalDocumentReference
@@ -72,15 +97,15 @@ class AdditionalDocumentReference implements XmlSerializable
             Schema::CBC . 'ID' => $this->id
         ]);
         if ($this->UUID !== null) {
-             $writer->write([
-                 Schema::CBC . 'UUID' => $this->UUID
-             ]);
-         }
+            $writer->write([
+                Schema::CBC . 'UUID' => $this->UUID
+            ]);
+        }
         if ($this->documentType !== null) {
-             $writer->write([
-                 Schema::CAC . 'DocumentType' => $this->documentType
-             ]);
-         }
+            $writer->write([
+                Schema::CAC . 'DocumentType' => $this->documentType
+            ]);
+        }
         if ($this->previousInvoiceHash !== null) {
             $writer->write([
                 'name' => Schema::CAC . 'Attachment',
@@ -92,11 +117,11 @@ class AdditionalDocumentReference implements XmlSerializable
                     ]
                 ],
             ]);
-         }
-         if ($this->attachment !== null) {
-             $writer->write([
-                 Schema::CAC . 'Attachment' => $this->attachment
-             ]);
-         }
+        }
+        if ($this->attachment !== null) {
+            $writer->write([
+                Schema::CAC . 'Attachment' => $this->attachment
+            ]);
+        }
     }
 }

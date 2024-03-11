@@ -2,6 +2,8 @@
 
 namespace Saleh7\Zatca;
 
+use BadMethodCallException;
+use InvalidArgumentException;
 use Sabre\Xml\XmlSerializable;
 use Sabre\Xml\Writer;
 use Saleh7\Zatca\Enums\DocumentLayout;
@@ -53,7 +55,7 @@ class InvoiceType implements XmlSerializable
                 break;
             default:
                 $this->documentType = '';
-                die("Document Type can be `invoice`, `debit`, `credit` or `prepayment` only, found $this->documentType\n");
+                throw new InvalidArgumentException("Document Type can be `invoice`, `debit`, `credit` or `prepayment` only, found $this->documentType\n");
         }
 
         // Check Document Layout
@@ -62,7 +64,7 @@ class InvoiceType implements XmlSerializable
             case 'simplified':
                 break;
             default:
-                die("Document Layout can be `standard` or `simplified` only, found $documentLayout\n");
+                throw new InvalidArgumentException("Document Layout can be `standard` or `simplified` only, found $documentLayout\n");
         }
         return true;
     }
@@ -152,7 +154,7 @@ class InvoiceType implements XmlSerializable
                 $fullDocumentTypeCode .= DocumentLayout::SIMPLIFIED;
                 break;
             default:
-                die("Document Layout can be `standard` or `simplified` only, found $this->documentLayout\n");
+                throw new InvalidArgumentException("Document Layout can be `standard` or `simplified` only, found $this->documentLayout\n");
         }
 
         // Check Other Subtypes
@@ -163,7 +165,7 @@ class InvoiceType implements XmlSerializable
         $fullDocumentTypeCode .= $this->isSelfBilled ? '1' : '0';
 
         if ($this->isSelfBilled && $this->isExport) {
-            die("Documents can't be self billed and export at the same time\n");
+            throw new BadMethodCallException("Documents can't be self billed and export at the same time\n");
         }
 
         $this->fullDocumentTypeCode = $fullDocumentTypeCode;

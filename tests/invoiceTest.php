@@ -8,10 +8,6 @@ $sign = (new \Saleh7\Zatca\SignatureInformation)
     ->setReferencedSignatureID("urn:oasis:names:specification:ubl:signature:Invoice")
     ->setID('urn:oasis:names:specification:ubl:signature:1');
 
-var_dump($sign);
-
-die();
-
 // UBLDocumentSignatures
 $ublDecoment = (new \Saleh7\Zatca\UBLDocumentSignatures)
     ->setSignatureInformation($sign);

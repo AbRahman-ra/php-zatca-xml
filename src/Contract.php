@@ -1,4 +1,5 @@
 <?php
+
 namespace Saleh7\Zatca;
 
 use Sabre\Xml\Writer;
@@ -9,6 +10,17 @@ class Contract implements XmlSerializable
     private $id;
 
     /**
+     * Creates a contract reference for an invoice
+     * Contract Reference is usually used in B2B documents
+     * @param string $id
+     * @return Contract
+     */
+    public function __construct(string $id)
+    {
+        $this->id = $id;
+    }
+
+    /**
      * @return string
      */
     public function getId(): string
@@ -16,15 +28,6 @@ class Contract implements XmlSerializable
         return $this->id;
     }
 
-    /**
-     * @param string $id
-     * @return Contract
-     */
-    public function setId(string $id): Contract
-    {
-        $this->id = $id;
-        return $this;
-    }
 
     /**
      * The xmlSerialize method is called during xml writing.
@@ -35,7 +38,7 @@ class Contract implements XmlSerializable
     public function xmlSerialize(Writer $writer): void
     {
         if ($this->id !== null) {
-            $writer->write([ Schema::CBC . 'ID' => $this->id ]);
+            $writer->write([Schema::CBC . 'ID' => $this->id]);
         }
     }
 }

@@ -26,27 +26,19 @@ $invoiceType = new \Saleh7\Zatca\InvoiceType('invoice', 'standard');
 // ->setSelfBilled();
 
 // Billing Reference (Mandatory in Credit & Debit Notes)
-$inType = (new \Saleh7\Zatca\BillingReference())
-    ->setId('SME00021');
+$inType = (new \Saleh7\Zatca\BillingReference('SME00021'));
 
 // Contract Reference
-$Contact = (new \Saleh7\Zatca\Contract())
-    ->setId('15');
+$Contract = (new \Saleh7\Zatca\Contract('15'));
 
 
 $AdditionalDocumentReferences = [];
 
-$AdditionalDocumentReferences[] = (new \Saleh7\Zatca\AdditionalDocumentReference())
-    ->setId('ICV')
-    ->setUUID(23);
+$AdditionalDocumentReferences[] = (new \Saleh7\Zatca\AdditionalDocumentReference('ICV', 23));
+$AdditionalDocumentReferences[] = (new \Saleh7\Zatca\AdditionalDocumentReference('PIH'));
+$AdditionalDocumentReferences[] = (new \Saleh7\Zatca\AdditionalDocumentReference('QR'));
 
-$AdditionalDocumentReferences[] = (new \Saleh7\Zatca\AdditionalDocumentReference())
-    ->setId('PIH')
-    ->setPreviousInvoiceHash('NWZlY2ViNjZmZmM4NmYzOGQ5NTI3ODZjNmQ2OTZjNzljMmRiYzIzOWRkNGU5MWI0NjcyOWQ3M2EyN2ZiNTdlOQ==');
-
-$AdditionalDocumentReferences[] = (new \Saleh7\Zatca\AdditionalDocumentReference())
-    ->setId('QR');
-
+// ---------------STOPPED HERE----------------
 // Tax scheme
 $taxScheme = (new \Saleh7\Zatca\TaxScheme())
     ->setId("VAT");
