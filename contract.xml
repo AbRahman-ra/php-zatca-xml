@@ -16,14 +16,11 @@
  <cbc:ProfileID>reporting:1.0</cbc:ProfileID>
  <cbc:ID>SME00023</cbc:ID>
  <cbc:UUID>3cf5ee18-ee25-44ea-a444-2c37ba7f28be</cbc:UUID>
- <cbc:IssueDate>2024-03-07</cbc:IssueDate>
- <cbc:IssueTime>20:16:01</cbc:IssueTime>
- <cbc:InvoiceTypeCode name="0100000">381</cbc:InvoiceTypeCode>
+ <cbc:IssueDate>2024-03-11</cbc:IssueDate>
+ <cbc:IssueTime>14:33:27</cbc:IssueTime>
+ <cbc:InvoiceTypeCode name="0100000">invoice</cbc:InvoiceTypeCode>
  <cbc:DocumentCurrencyCode>SAR</cbc:DocumentCurrencyCode>
  <cbc:TaxCurrencyCode>SAR</cbc:TaxCurrencyCode>
- <cac:ContractDocumentReference>
-  <cbc:ID>15</cbc:ID>
- </cac:ContractDocumentReference>
  <cac:AdditionalDocumentReference>
   <cbc:ID>ICV</cbc:ID>
   <cbc:UUID>23</cbc:UUID>
@@ -95,6 +92,7 @@
   </cac:Party>
  </cac:AccountingCustomerParty>
  <cac:Delivery>
+  <cbc:LatestDeliveryDate>2022-09-30</cbc:LatestDeliveryDate>
   <cbc:ActualDeliveryDate>2022-09-07</cbc:ActualDeliveryDate>
  </cac:Delivery>
  <cac:PaymentMeans>

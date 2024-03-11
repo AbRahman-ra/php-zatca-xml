@@ -4,14 +4,23 @@ namespace Saleh7\Zatca;
 
 use Sabre\Xml\XmlSerializable;
 use Sabre\Xml\Writer;
+use Saleh7\Zatca\Enums\DocumentLayout;
 use Saleh7\Zatca\Enums\DocumentType;
-use Saleh7\Zatca\Enums\InvoiceSubtype;
 
 class InvoiceType implements XmlSerializable
 {
-    private $invoice;
-    private $invoiceType;
-    private $documentType;
+    // private $invoice;
+    // private $invoiceType;
+    /**
+     * The Document Type (Invoice - Debit notes - Credit Notes - Prepayment Invoices)
+     */
+    private string $documentType;
+
+    /**
+     * The Document Layout (Standard - Simplified) of the invoice
+     */
+    private string $documentLayout;
+
     private bool $is3rdParty = false;
     private bool $isNominal = false;
     private bool $isExport = false;
@@ -19,32 +28,60 @@ class InvoiceType implements XmlSerializable
     private bool $isSelfBilled = false;
 
     /**
-     * @param string $documentType, the document type (`invoice` for invoices, `credit` for Credit Note, `debit` for Debit Note, `prepayment` for Prepayment Invoice)
-     * @param string $invoiceType, the document layout (`standard` for B2B invoices, `simplified` for B2C invoices)
+     * The 7-digit Document Type Code (NNPESB) of the invoice
      */
-    public function __construct(int $documentType, string $invoiceType)
+    private string $fullDocumentTypeCode;
+
+    /**
+     * 
+     */
+    private function validate(string $documentType, string $documentLayout)
     {
-        $this->documentType = $documentType;
+        // Check Document Type
+        switch ($documentType) {
+            case 'invoice':
+                $this->documentType = DocumentType::INVOICE;
+                break;
+            case 'debit':
+                $this->documentType = DocumentType::DEBIT_NOTE;
+                break;
+            case 'credit':
+                $this->documentType = DocumentType::CREDIT_NOTE;
+                break;
+            case 'prepayment':
+                $this->documentType = DocumentType::PREPAYMENT_INVOICE;
+                break;
+            default:
+                $this->documentType = '';
+                die("Document Type can be `invoice`, `debit`, `credit` or `prepayment` only, found $this->documentType\n");
+        }
+
+        // Check Document Layout
+        switch ($documentLayout) {
+            case 'standard':
+            case 'simplified':
+                break;
+            default:
+                die("Document Layout can be `standard` or `simplified` only, found $documentLayout\n");
+        }
+        return true;
     }
 
     /**
-     * `NN`: Invoice Subtype (`01` for B2B, `02` for B2C)
-     * `P`: Is the invoice a 3rd party invoice? (`0` for false, `1` for true)
-     * `N`: Is the invoice a nominal invoice? (`0` for false, `1` for true)
-     * `E`: Is the invoice an export invoice? (`0` for false, `1` for true)
-     * `S`: Is the invoice a summary invoice? (`0` for false, `1` for true)
-     * `B`: Is the invoice a self billed invoice? (`0` for false, `1` for true)
+     * Creates a new invoice type instance with a given document type and layout (case insensitive)
+     * @param string $documentType the document type (`'invoice'` for invoices, `'credit'` for Credit Note, `'debit'` for Debit Note, `prepayment` for Prepayment Invoice)
+     * @param string $documentLayout the document layout (`'standard'` for B2B invoices, `'simplified'` for B2C invoices)
+     * 
      */
-
-    /**
-     * Sets the document layout (B2B Documents `standard` - B2C Documents `simplified`) - Case Insensitive
-     * @param string $invoice The documet layout
-     * @return InvoiceType
-     */
-    public function setInvoice(string $invoice): InvoiceType
+    public function __construct(string $documentType, string $documentLayout)
     {
-        $this->invoice = strtolower($invoice);
-        return $this;
+        $documentType = strtolower($documentType);
+        $documentLayout = strtolower($documentLayout);
+
+        if ($this->validate($documentType, $documentLayout) === true) {
+            $this->documentType = $documentType;
+            $this->documentLayout = $documentLayout;
+        }
     }
 
     /**
@@ -102,14 +139,34 @@ class InvoiceType implements XmlSerializable
         return $this;
     }
 
-    /**
-     * Sets the document Type (Invoice `invoice` - Debit notes `debit` - Credit Notes `credit` - Prepayment Invoices `prepayment`) - Case Insensitive
-     * @param mixed $invoiceType
-     * @return InvoiceType
-     */
-    public function setInvoiceType(string $invoiceType): InvoiceType
+    private function generateDocumentFullCode(): InvoiceType
     {
-        $this->invoiceType = strtolower($invoiceType);
+        $fullDocumentTypeCode = '';
+
+        // Check Document Layout
+        switch ($this->documentLayout) {
+            case 'standard':
+                $fullDocumentTypeCode .= DocumentLayout::STANDARD;
+                break;
+            case 'simplified':
+                $fullDocumentTypeCode .= DocumentLayout::SIMPLIFIED;
+                break;
+            default:
+                die("Document Layout can be `standard` or `simplified` only, found $this->documentLayout\n");
+        }
+
+        // Check Other Subtypes
+        $fullDocumentTypeCode .= $this->is3rdParty ? '1' : '0';
+        $fullDocumentTypeCode .= $this->isNominal ? '1' : '0';
+        $fullDocumentTypeCode .= $this->isExport ? '1' : '0';
+        $fullDocumentTypeCode .= $this->isSummary ? '1' : '0';
+        $fullDocumentTypeCode .= $this->isSelfBilled ? '1' : '0';
+
+        if ($this->isSelfBilled && $this->isExport) {
+            die("Documents can't be self billed and export at the same time\n");
+        }
+
+        $this->fullDocumentTypeCode = $fullDocumentTypeCode;
         return $this;
     }
 
@@ -121,44 +178,15 @@ class InvoiceType implements XmlSerializable
      */
     public function xmlSerialize(Writer $writer): void
     {
-        // Check Document Type
-        switch ($this->invoiceType) {
-            case 'invoice':
-                $invoiceTypeCode = DocumentType::INVOICE;
-                break;
-            case 'debit':
-                $invoiceTypeCode = DocumentType::DEBIT_NOTE;
-                break;
-            case 'credit':
-                $invoiceTypeCode = DocumentType::CREDIT_NOTE;
-                break;
-            case 'prepayment':
-                $invoiceTypeCode = DocumentType::PREPAYMENT;
-                break;
-            default:
-                die("Document Type can be `invoice`, `debit`, `credit` or `prepayment` only, found $this->invoiceType\n");
-        }
-
-        // Check Document Layout
-        switch ($this->invoice) {
-            case 'standard':
-                $invoiceType = InvoiceSubtype::STANDARD;
-                break;
-            case 'simplified':
-                $invoiceType = InvoiceSubtype::SIMPLIFIED;
-                break;
-            default:
-                die("Document Layout can be `Standard` or `Simplified` only, found $this->invoice\n");
-        }
-
+        $this->generateDocumentFullCode();
 
         // Write the Invoice if everything is valid
         $writer->write([
             [
                 "name" => Schema::CBC . 'InvoiceTypeCode',
-                "value" => $invoiceTypeCode,
+                "value" => $this->documentType, // 3 digits (DocumentType::XXX enum)
                 "attributes" => [
-                    "name" => $invoiceType
+                    "name" => $this->fullDocumentTypeCode // 7 digits
                 ]
             ],
         ]);

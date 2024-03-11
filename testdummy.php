@@ -18,8 +18,12 @@ $Signature = new \Saleh7\Zatca\Signature();
 // ------------- END CONSTANT -------------
 
 // invoice Type
-$invoiceType = new \Saleh7\Zatca\InvoiceType(DocumentType::INVOICE, InvoiceSubtype::STANDARD);
-$invoiceType->set3rdParty();
+$invoiceType = new \Saleh7\Zatca\InvoiceType('invoice', 'standard');
+// $invoiceType
+// ->set3rdParty()
+// ->setExport()
+// ->setNominal()
+// ->setSelfBilled();
 
 // Billing Reference (Mandatory in Credit & Debit Notes)
 $inType = (new \Saleh7\Zatca\BillingReference())
