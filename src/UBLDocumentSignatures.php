@@ -1,4 +1,5 @@
 <?php
+
 namespace Saleh7\Zatca;
 
 use Sabre\Xml\Writer;
@@ -8,6 +9,11 @@ class UBLDocumentSignatures implements XmlSerializable
 {
 
     private $signatureInformation;
+
+    public function __construct(SignatureInformation $signatureInformation)
+    {
+        $this->signatureInformation = $signatureInformation;
+    }
 
     /**
      * @param SignatureInformation $signatureInformation

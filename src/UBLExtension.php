@@ -1,4 +1,5 @@
 <?php
+
 namespace Saleh7\Zatca;
 
 use Sabre\Xml\Writer;
@@ -6,24 +7,31 @@ use Sabre\Xml\XmlSerializable;
 
 class UBLExtension implements XmlSerializable
 {
-    private $extensionURI;
+    private $extensionUri;
     private $extensionContent;
 
+    public function __construct(
+        ExtensionContent $extensionContent,
+        string $extensionUri = 'urn:oasis:names:specification:ubl:dsig:enveloped:xades'
+    ) {
+        $this->extensionContent = $extensionContent;
+        $this->extensionUri = $extensionUri;
+    }
     /**
      * @return string
      */
-    public function getExtensionURI(): string
+    public function getExtensionUri(): string
     {
-        return $this->extensionURI;
+        return $this->extensionUri;
     }
 
     /**
-     * @param string $uri
+     * @param string $extensionUri
      * @return UBLExtension
      */
-    public function setExtensionURI(string $uri): UBLExtension
+    public function setExtensionURI(string $extensionUri): UBLExtension
     {
-        $this->extensionURI = $uri;
+        $this->extensionUri = $extensionUri;
         return $this;
     }
 
@@ -54,7 +62,7 @@ class UBLExtension implements XmlSerializable
     public function xmlSerialize(Writer $writer): void
     {
         $writer->write([
-            [Schema::EXT . 'ExtensionURI' => $this->extensionURI],
+            [Schema::EXT . 'ExtensionURI' => $this->extensionUri],
             [Schema::EXT . 'ExtensionContent' => $this->extensionContent]
         ]);
     }

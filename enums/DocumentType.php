@@ -5,7 +5,7 @@ namespace Saleh7\Zatca\Enums;
 /**
  * The Document Type (Invoice - Debit Note - Credit Note - Prepayment Invoice)
  */
-enum InvoiceType: int
+enum DocumentType: int
 {
     const INVOICE = 388;
     const PREPAYMENT = 386;

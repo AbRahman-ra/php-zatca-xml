@@ -1,7 +1,9 @@
 <?php
+
 namespace Saleh7\Zatca;
 
 use InvalidArgumentException;
+use PhpParser\Node\Expr\Cast\Array_;
 use Sabre\Xml\Writer;
 use Sabre\Xml\XmlSerializable;
 
@@ -9,6 +11,11 @@ class UBLExtensions implements XmlSerializable
 {
 
     private array $UBLExtensions;
+
+    public function __construct(array $UBLExtensions)
+    {
+        $this->UBLExtensions = $UBLExtensions;
+    }
 
     /**
      * @return UBLExtension

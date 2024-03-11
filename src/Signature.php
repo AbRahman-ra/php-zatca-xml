@@ -1,4 +1,5 @@
 <?php
+
 namespace Saleh7\Zatca;
 
 use Sabre\Xml\Writer;
@@ -6,9 +7,16 @@ use Sabre\Xml\XmlSerializable;
 
 class Signature implements XmlSerializable
 {
-    private $id = "urn:oasis:names:specification:ubl:signature:Invoice";
-    private $signatureMethod = "urn:oasis:names:specification:ubl:dsig:enveloped:xades";
+    private $id;
+    private $signatureMethod;
 
+    public function __construct(
+        string $id = 'urn:oasis:names:specification:ubl:signature:Invoice',
+        string $signatureMethod = 'urn:oasis:names:specification:ubl:dsig:enveloped:xades'
+    ) {
+        $this->id = $id;
+        $this->signatureMethod = $signatureMethod;
+    }
     /**
      * @param string $id
      * @return Signature

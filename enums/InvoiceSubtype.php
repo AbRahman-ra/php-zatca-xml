@@ -7,6 +7,6 @@ namespace Saleh7\Zatca\Enums;
  */
 enum InvoiceSubtype: string
 {
-    const STANDARD = '0100000';
-    const SIMPLIFIED = '0200000';
+    const STANDARD = '01';
+    const SIMPLIFIED = '02';
 }

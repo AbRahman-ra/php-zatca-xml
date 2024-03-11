@@ -1,4 +1,5 @@
 <?php
+
 namespace Saleh7\Zatca;
 
 use Sabre\Xml\Writer;
@@ -9,6 +10,10 @@ class ExtensionContent implements XmlSerializable
 
     private $UBLDocumentSignatures;
 
+    public function __construct(UBLDocumentSignatures $UBLDocumentSignatures)
+    {
+        $this->UBLDocumentSignatures = $UBLDocumentSignatures;
+    }
     /**
      * @param UBLDocumentSignatures $UBLDocumentSignatures
      * @return ExtensionContent
