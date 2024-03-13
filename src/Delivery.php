@@ -1,4 +1,5 @@
 <?php
+
 namespace Saleh7\Zatca;
 
 use Sabre\Xml\Writer;
@@ -12,22 +13,16 @@ class Delivery implements XmlSerializable
     private $deliveryLocation;
 
     /**
-     * @param DateTime $actualDeliveryDate
+     * @param DateTime $actualDeliveryDate The supply beginning Date
+     * @param DateTime $latestDeliveryDate The supply end Date - Only for summary invoices
      * @return Delivery
      */
-    public function setActualDeliveryDate($actualDeliveryDate): Delivery
+    public function __construct(DateTime $actualDeliveryDate, ?DateTime $latestDeliveryDate)
     {
         $this->actualDeliveryDate = $actualDeliveryDate;
-        return $this;
-    }
-
-    /**
-     * @param DateTime $latestDeliveryDate
-     * @return Delivery
-     */
-    public function setLatestDeliveryDate($latestDeliveryDate): Delivery
-    {
-        $this->latestDeliveryDate = $latestDeliveryDate;
+        if ($latestDeliveryDate != null) {
+            $this->latestDeliveryDate = $latestDeliveryDate;
+        }
         return $this;
     }
 
@@ -51,17 +46,17 @@ class Delivery implements XmlSerializable
     {
         if ($this->latestDeliveryDate != null) {
             $writer->write([
-               Schema::CBC . 'LatestDeliveryDate' => $this->latestDeliveryDate
+                Schema::CBC . 'LatestDeliveryDate' => $this->latestDeliveryDate
             ]);
         }
         if ($this->actualDeliveryDate != null) {
             $writer->write([
-               Schema::CBC . 'ActualDeliveryDate' => $this->actualDeliveryDate
+                Schema::CBC . 'ActualDeliveryDate' => $this->actualDeliveryDate
             ]);
         }
         if ($this->deliveryLocation != null) {
             $writer->write([
-               Schema::CAC . 'DeliveryLocation' => [ Schema::CAC . 'Address' => $this->deliveryLocation ]
+                Schema::CAC . 'DeliveryLocation' => [Schema::CAC . 'Address' => $this->deliveryLocation]
             ]);
         }
     }

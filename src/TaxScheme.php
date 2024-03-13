@@ -12,13 +12,12 @@ class TaxScheme implements XmlSerializable
     private $name;
 
     /**
-     * @param string $id
+     * @param string $id The Tax Scheme ID, Default Value is set to 'VAT'
      * @return TaxScheme
      */
-    public function setId(string $id): TaxScheme
+    public function __construct(string $id = 'VAT')
     {
         $this->id = $id;
-        return $this;
     }
 
     /**

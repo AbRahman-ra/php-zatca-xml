@@ -1,4 +1,5 @@
 <?php
+
 namespace Saleh7\Zatca;
 
 use Sabre\Xml\Writer;
@@ -11,23 +12,18 @@ class PartyTaxScheme implements XmlSerializable
     private $taxScheme;
 
     /**
-     * @param string $companyId
+     * Creates a new Party Tax Scheme Tag
+     * @param int|string $companyId The VAT Number of the company as a string, must be a 15-digit number starting and ending with 3
+     * @param TaxScheme $taxScheme The Tax Scheme Instance
      * @return PartyTaxScheme
      */
-    public function setCompanyId($companyId): PartyTaxScheme
+    public function __construct(int|string $companyId, TaxScheme $taxScheme)
     {
+        if (preg_match('/^3[0-9]{13}3$/', $companyId) === 0) {
+            throw new InvalidArgumentException('The Company ID must be a 15-digit number starting and ending with 3');
+        }
         $this->companyId = $companyId;
-        return $this;
-    }
-
-    /**
-     * @param TaxScheme $taxScheme
-     * @return PartyTaxScheme
-     */
-    public function setTaxScheme(TaxScheme $taxScheme): PartyTaxScheme
-    {
         $this->taxScheme = $taxScheme;
-        return $this;
     }
 
     /**

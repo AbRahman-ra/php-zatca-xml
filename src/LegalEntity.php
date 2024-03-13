@@ -1,4 +1,5 @@
 <?php
+
 namespace Saleh7\Zatca;
 
 use Sabre\Xml\Writer;
@@ -9,13 +10,13 @@ class LegalEntity implements XmlSerializable
     private $registrationName;
 
     /**
-     * @param string $registrationName
+     * @param string $registrationName Company Name
      * @return LegalEntity
      */
-    public function setRegistrationName(?string $registrationName): LegalEntity
+    public function __construct(string $registrationName)
+
     {
         $this->registrationName = $registrationName;
-        return $this;
     }
 
     /**
@@ -27,7 +28,7 @@ class LegalEntity implements XmlSerializable
     public function xmlSerialize(Writer $writer): void
     {
         if ($this->registrationName !== null) {
-            $writer->write( [ Schema::CBC . 'RegistrationName' => $this->registrationName ] );
+            $writer->write([Schema::CBC . 'RegistrationName' => $this->registrationName]);
         }
     }
 }

@@ -2,6 +2,8 @@
 
 use Saleh7\Zatca\Enums\DocumentType;
 use Saleh7\Zatca\Enums\InvoiceSubtype;
+use Saleh7\Zatca\Enums\PaymentMean;
+use Saleh7\Zatca\Enums\PaymentMeans;
 
 include __DIR__ . '/vendor/autoload.php';
 
@@ -38,17 +40,12 @@ $AdditionalDocumentReferences[] = (new \Saleh7\Zatca\AdditionalDocumentReference
 $AdditionalDocumentReferences[] = (new \Saleh7\Zatca\AdditionalDocumentReference('PIH'));
 $AdditionalDocumentReferences[] = (new \Saleh7\Zatca\AdditionalDocumentReference('QR'));
 
-// ---------------STOPPED HERE----------------
 // Tax scheme
-$taxScheme = (new \Saleh7\Zatca\TaxScheme())
-    ->setId("VAT");
+$vatTaxScheme = (new \Saleh7\Zatca\TaxScheme("VAT"));
 
-$partyTaxScheme = (new \Saleh7\Zatca\PartyTaxScheme())
-    ->setTaxScheme($taxScheme)
-    ->setCompanyId('311111111101113');
+$partyTaxScheme = (new \Saleh7\Zatca\PartyTaxScheme('312345678901233', $vatTaxScheme));
 
-$partyTaxSchemeCustomer = (new \Saleh7\Zatca\PartyTaxScheme())
-    ->setTaxScheme($taxScheme);
+$partyTaxSchemeCustomer = new \Saleh7\Zatca\PartyTaxScheme(312345678901233, $vatTaxScheme);
 
 $address = (new \Saleh7\Zatca\Address())
     ->setStreetName('الامير سلطان')
@@ -59,28 +56,16 @@ $address = (new \Saleh7\Zatca\Address())
     ->setPostalZone('23333')
     ->setCountry('SA');
 
-$legalEntity = (new \Saleh7\Zatca\LegalEntity())
-    ->setRegistrationName('Acme Widget’s LTD');
+$legalEntity = (new \Saleh7\Zatca\LegalEntity('Acme Widget’s LTD'));
 
-$delivery = (new \Saleh7\Zatca\Delivery())
-    ->setActualDeliveryDate("2022-09-07")
-    ->setLatestDeliveryDate("2022-09-30"); // Only for summary invoices
+$delivery = new \Saleh7\Zatca\Delivery(new DateTime("2022-09-07"), new DateTime("2022-09-30"));
 
-$supplierCompany = (new \Saleh7\Zatca\Party())
-    ->setPartyIdentification("311111111111113")
-    ->setPartyIdentificationId("CRN")
-    ->setLegalEntity($legalEntity)
-    ->setPartyTaxScheme($partyTaxScheme)
-    ->setPostalAddress($address);
+$supplierCompany = new \Saleh7\Zatca\Party($legalEntity, $address, $partyTaxScheme, "CRN", 10012301);
 
-$supplierCustomer = (new \Saleh7\Zatca\Party())
-    ->setPartyIdentification("311111111111113")
-    ->setPartyIdentificationId("NAT")
-    ->setLegalEntity($legalEntity)
-    ->setPartyTaxScheme($partyTaxSchemeCustomer)
-    ->setPostalAddress($address);
+$supplierCustomer = new \Saleh7\Zatca\Party($legalEntity, $address, $partyTaxScheme, "GCC", "990234568");
 
-$clientPaymentMeans = (new \Saleh7\Zatca\PaymentMeans())
+// ---------------STOPPED HERE----------------
+$clientPaymentMeans = (new \Saleh7\Zatca\PaymentMeans(PaymentMean::CASH))
     ->setPaymentMeansCode("10");
 
 // Tax Category (S - E - Z - O)
